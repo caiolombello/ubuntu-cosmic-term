@@ -1,0 +1,121 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║                                                                            ║
+║            🚀 DEFINIR COSMIC TERMINAL COMO PADRÃO                          ║
+║                                                                            ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+
+📋 PASSO A PASSO:
+
+
+┌────────────────────────────────────────────────────────────────────────────┐
+│ OPÇÃO 1: AUTOMÁTICA (Recomendado)                                         │
+└────────────────────────────────────────────────────────────────────────────┘
+
+Execute este comando no terminal:
+
+    cd /home/caio/Downloads/cosmic-term
+    bash definir-como-padrao.sh
+
+
+Isso vai:
+  ✓ Instalar o COSMIC Terminal em /usr/local/bin/
+  ✓ Instalar os ícones e arquivos .desktop
+  ✓ Registrar como alternativa do sistema
+  ✓ Definir como terminal padrão
+  ✓ Configurar no GNOME
+
+
+┌────────────────────────────────────────────────────────────────────────────┐
+│ OPÇÃO 2: MANUAL (Passo a passo)                                           │
+└────────────────────────────────────────────────────────────────────────────┘
+
+1️⃣  Instalar no sistema:
+
+    sudo cp target/release/cosmic-term /usr/local/bin/
+    sudo cp res/com.system76.CosmicTerm.desktop /usr/share/applications/
+
+
+2️⃣  Registrar como alternativa:
+
+    sudo update-alternatives --install /usr/bin/x-terminal-emulator \
+         x-terminal-emulator /usr/local/bin/cosmic-term 100
+
+
+3️⃣  Definir como padrão:
+
+    sudo update-alternatives --set x-terminal-emulator /usr/local/bin/cosmic-term
+
+
+4️⃣  Configurar no GNOME (opcional):
+
+    gsettings set org.gnome.desktop.default-applications.terminal exec 'cosmic-term'
+
+
+5️⃣  Atualizar cache:
+
+    sudo update-desktop-database
+
+
+╔════════════════════════════════════════════════════════════════════════════╗
+║  COMO TESTAR SE FUNCIONOU                                                  ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+  🔷 Pressione: Ctrl + Alt + T
+     (Deve abrir o COSMIC Terminal)
+
+  🔷 Execute no terminal:
+     x-terminal-emulator
+     (Deve abrir o COSMIC Terminal)
+
+  🔷 Clique com botão direito no desktop
+     → "Abrir Terminal"
+     (Deve abrir o COSMIC Terminal)
+
+
+╔════════════════════════════════════════════════════════════════════════════╗
+║  VOLTAR AO TERMINAL ANTERIOR                                               ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+Se quiser voltar ao terminal padrão anterior (gnome-terminal, etc):
+
+    sudo update-alternatives --config x-terminal-emulator
+
+Escolha o número do terminal que deseja usar.
+
+
+╔════════════════════════════════════════════════════════════════════════════╗
+║  ATALHOS DE TECLADO                                                        ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+Depois de definir como padrão, estes atalhos abrirão o COSMIC Terminal:
+
+  • Ctrl + Alt + T          → Abre novo terminal
+  • Super + T               → Abre terminal (se configurado)
+  • Menu → Terminal         → Abre COSMIC Terminal
+
+
+╔════════════════════════════════════════════════════════════════════════════╗
+║  DICAS                                                                     ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+💡 Configure fontes com ligatures:
+   sudo apt install fonts-firacode fonts-jetbrains-mono
+
+💡 Importe esquemas de cores:
+   View → Color schemes... (dentro do COSMIC Terminal)
+
+💡 Para múltiplas janelas:
+   Ctrl + Shift + N (nova janela)
+
+💡 Para novas abas:
+   Ctrl + Shift + T (nova aba)
+
+
+╔════════════════════════════════════════════════════════════════════════════╗
+║                                                                            ║
+║  ▶ EXECUTE AGORA: bash definir-como-padrao.sh                             ║
+║                                                                            ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+
