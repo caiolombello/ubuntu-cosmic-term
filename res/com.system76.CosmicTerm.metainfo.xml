@@ -3,19 +3,19 @@
   <id>com.system76.CosmicTerm</id>
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-3.0-only</project_license>
-  <project_group>COSMIC</project_group>
+  <project_group>System76</project_group>
   <developer_name>System76</developer_name>
   <update_contact>jeremy@system76.com</update_contact>
   <url type="homepage">https://github.com/pop-os/cosmic-term</url>
   <url type="bugtracker">https://github.com/pop-os/cosmic-term</url>
   <name>COSMIC Terminal</name>
-  <name xml:lang="ar">طرفية COSMIC</name>
-  <name xml:lang="cs">Terminál COSMIC</name>
-  <name xml:lang="pl">Terminal COSMIC</name>
+  <name xml:lang="ar">COSMIC Terminal</name>
+  <name xml:lang="cs">COSMIC Terminal</name>
+  <name xml:lang="pl">COSMIC Terminal</name>
   <name xml:lang="hu">COSMIC Terminál</name>
-  <name xml:lang="pt_BR">Terminal</name>
-  <name xml:lang="pt">Terminal</name>
-  <name xml:lang="sk">Terminál COSMIC</name>
+  <name xml:lang="pt_BR">Terminal COSMIC</name>
+  <name xml:lang="pt">Terminal COSMIC</name>
+  <name xml:lang="sk">COSMIC Terminál</name>
   <name xml:lang="es">Terminal COSMIC</name>
   <name xml:lang="it">Terminale di COSMIC</name>
   <name xml:lang="sv">COSMIC Terminal</name>

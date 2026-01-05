@@ -1,0 +1,21 @@
+[Desktop Entry]
+Name=GNOME Terminal
+Name[pt_BR]=Terminal GNOME
+Name[pt]=Terminal GNOME
+Comment=Terminal emulator for the GNOME desktop
+Comment[pt_BR]=Emulador de terminal para o desktop GNOME
+Comment[pt]=Emulador de terminal para o desktop GNOME
+Exec=gnome-term
+Terminal=false
+Type=Application
+StartupNotify=true
+Icon=gnome-term
+Categories=System;TerminalEmulator;Utility;
+Keywords=Command;Shell;Terminal;CLI;
+Actions=New;
+
+[Desktop Action New]
+Name=New Terminal
+Name[pt_BR]=Novo Terminal
+Name[pt]=Novo Terminal
+Exec=gnome-term

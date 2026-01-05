@@ -1,4 +1,4 @@
-Source: cosmic-term
+Source: gnome-term
 Section: admin
 Priority: optional
 Maintainer: Jeremy Soller <jeremy@system76.com>
@@ -12,8 +12,8 @@ Build-Depends:
 Standards-Version: 4.6.2
 Homepage: https://github.com/pop-os/cosmic-term
 
-Package: cosmic-term
+Package: gnome-term
 Architecture: amd64 arm64
 Depends: ${misc:Depends}, ${shlibs:Depends}
 Provides: x-terminal-emulator
-Description: COSMIC Terminal
+Description: GNOME Terminal

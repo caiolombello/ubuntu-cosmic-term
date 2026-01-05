@@ -1,0 +1,28 @@
+--- a/src/config.rs
++++ b/src/config.rs
+@@ -254,7 +254,7 @@ impl Default for Config {
+             font_weight: Weight::NORMAL.0,
+             opacity: 100,
+             profiles: BTreeMap::new(),
+-            show_headerbar: true,
++            show_headerbar: true,  // Força headerbar para compatibilidade com GNOME
+             syntax_theme_dark: COSMIC_THEME_DARK.to_string(),
+             syntax_theme_light: COSMIC_THEME_LIGHT.to_string(),
+             use_bright_bold: false,
+--- a/src/main.rs
++++ b/src/main.rs
+@@ -1415,8 +1415,11 @@ impl Application for App {
+     /// Creates the application, and optionally emits command on initialize.
+     fn init(mut core: Core, flags: Self::Flags) -> (Self, Task<Self::Message>) {
+         core.window.content_container = false;
+-        core.window.show_headerbar = flags.config.show_headerbar;
+-
++        // Sempre usar headerbar no GNOME para mostrar botões de janela
++        core.window.show_headerbar = true;
++        // Usar cantos arredondados para melhor integração com GNOME
++        core.window.sharp_corners = false;
++
+         // Update font name from config
+         {
+             let mut font_system = font_system().write().unwrap();
+

@@ -1,32 +1,27 @@
-#TODO: more build-out, desktop actions, translations?
 [Desktop Entry]
 Name=COSMIC Terminal
-Name[ar]=COSMIC Terminal
-Name[cs]=COSMIC Terminal
+Name[ar]=طرفية COSMIC
+Name[cs]=Terminál COSMIC
 Name[zh_CN]=COSMIC 终端
 Name[pl]=Terminal COSMIC
 Name[pt_BR]=Terminal COSMIC
-Name[ru]=Терминал
 Name[hu]=COSMIC Terminál
 Name[pt]=Terminal COSMIC
-Name[sk]=COSMIC Terminál
+Name[sk]=Terminál COSMIC
 Name[es]=Terminal COSMIC
 Name[it]=Terminale di COSMIC
-Name[sv]=COSMIC Terminal
 Comment=Terminal emulator for the COSMIC desktop
 Comment[ar]=محاكي طرفي لسطح مكتب COSMIC
 Comment[cs]=Emulátor terminálu pro pracovní prostředí COSMIC
 Comment[sk]=Emulátor terminálu pre pracovné prostredie COSMIC
-Comment[ru]=Эмулятор терминала для рабочей среды COSMIC
 Comment[hu]=Terminálemulátor a COSMIC asztali környezethez
 Comment[it]=Emulatore di terminale di COSMIC
-Comment[sv]=Terminalemulator för skribordsmiljön COSMIC
 Exec=cosmic-term
 Terminal=false
 Type=Application
 StartupNotify=true
-Icon=com.system76.CosmicTerm
-Categories=System;TerminalEmulator;
+Icon=cosmic-term
+Categories=System;TerminalEmulator;Utility;
 Keywords=Command;Shell;Terminal;CLI;
 Keywords[ar]=cli;طرفية;أوامر;صدفة;
 Keywords[cs]=Příkaz;Shell;Terminál;Konzole;CLI;
@@ -35,7 +30,15 @@ Keywords[pt_BR]=Comando;Shell;Terminal;
 Keywords[hu]=parancssor;terminál;
 Keywords[pt]=Comando;Shell;Terminal;Console;
 Keywords[sk]=Príkaz;Shell;Terminál;Konzola;
-Keywords[ru]=Команда;Оболочка;Терминал;Консоль;
 Keywords[es]=Comando;Shell;Terminal;Consola;
 Keywords[it]=Comando;Shell;Terminale;Console;
-Keywords[sv]=Kommando;Skal;Terminal;CLI;Konsol
+Actions=New;
+
+[Desktop Action New]
+Name=New Terminal
+Name[pt_BR]=Novo Terminal
+Name[pt]=Novo Terminal
+Name[es]=Nueva Terminal
+Name[it]=Nuovo Terminale
+Exec=cosmic-term
+
