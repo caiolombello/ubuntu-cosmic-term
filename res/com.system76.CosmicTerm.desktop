@@ -1,28 +1,28 @@
 #TODO: more build-out, desktop actions, translations?
 [Desktop Entry]
 Name=COSMIC Terminal
-Name[ar]=طرفية COSMIC
-Name[cs]=Terminál COSMIC
+Name[ar]=COSMIC Terminal
+Name[cs]=COSMIC Terminal
 Name[zh_CN]=COSMIC 终端
-Name[pl]=Terminal COSMIC
-Name[pt_BR]=Terminal
+Name[pl]=COSMIC Terminal
+Name[pt_BR]=Terminal COSMIC
 Name[hu]=COSMIC Terminál
-Name[pt]=Terminal
-Name[sk]=Terminál COSMIC
+Name[pt]=Terminal COSMIC
+Name[sk]=COSMIC Terminál
 Name[es]=Terminal COSMIC
-Name[it]=Terminale di COSMIC
+Name[it]=Terminal COSMIC
 Comment=Terminal emulator for the COSMIC desktop
 Comment[ar]=محاكي طرفي لسطح مكتب COSMIC
 Comment[cs]=Emulátor terminálu pro pracovní prostředí COSMIC
 Comment[sk]=Emulátor terminálu pre pracovné prostredie COSMIC
 Comment[hu]=Terminálemulátor a COSMIC asztali környezethez
-Comment[it]=Emulatore di terminale di COSMIC
+Comment[it]=Emulatore di terminale COSMIC
 Exec=cosmic-term
 Terminal=false
 Type=Application
 StartupNotify=true
 Icon=com.system76.CosmicTerm
-Categories=COSMIC;System;TerminalEmulator;
+Categories=System;TerminalEmulator;
 Keywords=Command;Shell;Terminal;CLI;
 Keywords[ar]=cli;طرفية;أوامر;صدفة;
 Keywords[cs]=Příkaz;Shell;Terminál;Konzole;CLI;
