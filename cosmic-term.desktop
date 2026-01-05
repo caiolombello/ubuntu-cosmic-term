@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=COSMIC Terminal
+Comment=A modern terminal emulator for the COSMIC desktop
+Exec=cosmic-term
+Icon=utilities-terminal
+Terminal=false
+Categories=System;TerminalEmulator;
+StartupNotify=true
+Keywords=terminal;shell;prompt;command;commandline;
