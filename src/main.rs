@@ -75,6 +75,10 @@ use clap_lex::RawArgs;
 
 static ICON_CACHE: LazyLock<Mutex<IconCache>> = LazyLock::new(|| Mutex::new(IconCache::new()));
 
+const MINIMIZE_SVG: &[u8] = br#"<svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M3 8.5h10v1H3z" fill="currentColor"/></svg>"#;
+const MAXIMIZE_SVG: &[u8] = br#"<svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><rect x="3.5" y="3.5" width="9" height="9" rx="1" ry="1" fill="none" stroke="currentColor" stroke-width="1"/></svg>"#;
+const CLOSE_SVG: &[u8] = br##"<svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M4.2 4.2 8 8l3.8-3.8.8.8L8.8 8.8l3.8 3.8-.8.8L8 9.6l-3.8 3.8-.8-.8L7.2 8.8 3.4 5l.8-.8Z" fill="#e01b24"/></svg>"##;
+
 pub fn icon_cache_get(name: &'static str, size: u16) -> widget::icon::Icon {
     let mut icon_cache = ICON_CACHE.lock().unwrap();
     icon_cache.get(name, size)
@@ -409,6 +413,8 @@ pub enum Message {
     UseBrightBold(bool),
     WindowClose,
     WindowNew,
+    WindowMaximize,
+    WindowMinimize,
     WindowFocused,
     WindowUnfocused,
     ZoomIn,
@@ -566,7 +572,8 @@ impl App {
         }
 
         // Set headerbar state
-        self.core.window.show_headerbar = self.config.show_headerbar;
+        // GNOME FIX: Sempre manter headerbar visível para compatibilidade
+        self.core.window.show_headerbar = true;
 
         // Update application theme
         cosmic::command::set_theme(theme)
@@ -1414,8 +1421,16 @@ impl Application for App {
 
     /// Creates the application, and optionally emits command on initialize.
     fn init(mut core: Core, flags: Self::Flags) -> (Self, Task<Self::Message>) {
-        core.window.content_container = false;
-        core.window.show_headerbar = flags.config.show_headerbar;
+        core.window.content_container = true;
+        // GNOME FIX: Sempre mostrar headerbar para compatibilidade com GNOME/Ubuntu
+        // Isso garante que os botões de minimizar/maximizar/fechar sejam visíveis
+        core.window.show_headerbar = true;
+        // Usar nossos próprios botões (senão o tema pode ocultar os nativos)
+        core.window.show_close = false;
+        core.window.show_maximize = false;
+        core.window.show_minimize = false;
+        // Usar cantos arredondados para melhor integração com GNOME
+        core.window.sharp_corners = false;
 
         // Update font name from config
         {
@@ -2672,6 +2687,12 @@ impl Application for App {
                     return window::close(window_id);
                 }
             }
+            Message::WindowMinimize => {
+                return self.minimize();
+            }
+            Message::WindowMaximize => {
+                return self.maximize();
+            }
             Message::WindowNew => match env::current_exe() {
                 Ok(exe) => match process::Command::new(&exe).spawn() {
                     Ok(_child) => {}
@@ -2745,17 +2766,47 @@ impl Application for App {
         })
     }
 
+
+
     fn header_start(&self) -> Vec<Element<'_, Self::Message>> {
         vec![menu_bar(&self.core, &self.config, &self.key_binds)]
     }
 
     fn header_end(&self) -> Vec<Element<'_, Self::Message>> {
+        let spacing = self.core().system_theme().cosmic().spacing.space_xxs;
+
+        let minimize = widget::button::custom(widget::icon::icon(
+            widget::icon::from_svg_bytes(MINIMIZE_SVG).symbolic(true),
+        ))
+            .on_press(Message::WindowMinimize)
+            .padding(8)
+            .class(style::Button::HeaderBar)
+            .into();
+
+        let maximize = widget::button::custom(widget::icon::icon(
+            widget::icon::from_svg_bytes(MAXIMIZE_SVG).symbolic(true),
+        ))
+            .on_press(Message::WindowMaximize)
+            .padding(8)
+            .class(style::Button::HeaderBar)
+            .into();
+
+        let close = widget::button::custom(icon_cache_get("window-close-symbolic", 16))
+            .on_press(Message::WindowClose)
+            .padding(8)
+            .class(style::Button::HeaderBar)
+            .into();
+
+        let controls = widget::Row::with_children(vec![minimize, maximize, close])
+            .spacing(spacing);
+
         vec![
             widget::button::custom(icon_cache_get("list-add-symbolic", 16))
                 .on_press(Message::TabNew)
                 .padding(8)
                 .class(style::Button::Icon)
                 .into(),
+            controls.into(),
         ]
     }
 
@@ -2774,16 +2825,22 @@ impl Application for App {
             let mut tab_column = widget::column::with_capacity(1);
 
             if tab_model.iter().count() > 1 {
+                let mut tab_bar = widget::tab_bar::horizontal(tab_model)
+                    .button_height(32)
+                    .button_spacing(space_xxs)
+                    .on_activate(Message::TabActivate)
+                    .on_close(|entity| Message::TabClose(Some(entity)));
+
+                // Forçar um ícone de fechar com cor própria para não sumir em temas GNOME
+                tab_bar = tab_bar.close_icon(
+                    widget::icon::icon(widget::icon::from_svg_bytes(CLOSE_SVG).symbolic(false))
+                        .size(14),
+                );
+
                 tab_column = tab_column.push(
-                    widget::container(
-                        widget::tab_bar::horizontal(tab_model)
-                            .button_height(32)
-                            .button_spacing(space_xxs)
-                            .on_activate(Message::TabActivate)
-                            .on_close(|entity| Message::TabClose(Some(entity))),
-                    )
-                    .class(style::Container::Background)
-                    .width(Length::Fill),
+                    widget::container(tab_bar)
+                        .class(style::Container::Background)
+                        .width(Length::Fill),
                 );
             }
 
@@ -2909,8 +2966,9 @@ impl Application for App {
         .on_resize(space_xxs, Message::PaneResized)
         .on_drag(Message::PaneDragged);
 
-        //TODO: apply window border radius xs at bottom of window
-        pane_grid.into()
+        let content = widget::Column::new().push(pane_grid);
+
+        content.into()
     }
 
     fn system_theme_update(
